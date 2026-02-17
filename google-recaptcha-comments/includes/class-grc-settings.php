@@ -104,11 +104,15 @@ class GRC_Settings {
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('grc_test_connection'),
             'strings' => array(
-                'testing'  => __('Testing...', 'google-recaptcha-comments'),
-                'success'  => __('Connection successful! Your API keys are valid.', 'google-recaptcha-comments'),
-                'failed'   => __('Connection failed. Please check your secret key.', 'google-recaptcha-comments'),
-                'error'    => __('Could not reach the reCAPTCHA API. Please try again.', 'google-recaptcha-comments'),
-                'noKeys'   => __('Please enter both Site Key and Secret Key first.', 'google-recaptcha-comments'),
+                'testing'     => __('Testing...', 'google-recaptcha-comments'),
+                'success'     => __('Connection successful! Your API keys are valid.', 'google-recaptcha-comments'),
+                'failed'      => __('Connection failed. Please check your secret key.', 'google-recaptcha-comments'),
+                'error'       => __('Could not reach the reCAPTCHA API. Please try again.', 'google-recaptcha-comments'),
+                'noKeys'      => __('Please enter both Site Key and Secret Key first.', 'google-recaptcha-comments'),
+                'siteKeyV2'   => __('Enter the Site Key for reCAPTCHA v2 ("I\'m not a robot" checkbox).', 'google-recaptcha-comments'),
+                'siteKeyV3'   => __('Enter the Site Key for reCAPTCHA v3. This is different from a v2 key.', 'google-recaptcha-comments'),
+                'secretKeyV2' => __('Enter the Secret Key for reCAPTCHA v2 ("I\'m not a robot" checkbox).', 'google-recaptcha-comments'),
+                'secretKeyV3' => __('Enter the Secret Key for reCAPTCHA v3. This is different from a v2 key.', 'google-recaptcha-comments'),
             ),
         ));
     }
@@ -209,7 +213,28 @@ class GRC_Settings {
                                 <option value="v2" <?php selected($version, 'v2'); ?>><?php esc_html_e('v2 — "I\'m not a robot" Checkbox', 'google-recaptcha-comments'); ?></option>
                                 <option value="v3" <?php selected($version, 'v3'); ?>><?php esc_html_e('v3 — Invisible (Score-based)', 'google-recaptcha-comments'); ?></option>
                             </select>
-                            <p class="description"><?php esc_html_e('v2 shows a checkbox; v3 runs invisibly and scores each request.', 'google-recaptcha-comments'); ?></p>
+                            <p class="description">
+                                <?php esc_html_e('v2 shows a checkbox; v3 runs invisibly and scores each request.', 'google-recaptcha-comments'); ?><br>
+                                <strong><?php esc_html_e('Important:', 'google-recaptcha-comments'); ?></strong>
+                                <?php
+                                printf(
+                                    /* translators: %s: URL to Google reCAPTCHA admin */
+                                    esc_html__('v2 and v3 require different API keys. If you change this setting, you must enter new keys from the %s.', 'google-recaptcha-comments'),
+                                    '<a href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener noreferrer">' . esc_html__('Google reCAPTCHA admin console', 'google-recaptcha-comments') . '</a>'
+                                );
+                                ?>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e('Get API Keys', 'google-recaptcha-comments'); ?></th>
+                        <td>
+                            <a href="https://www.google.com/recaptcha/admin/create" target="_blank" rel="noopener noreferrer" class="button button-secondary">
+                                <?php esc_html_e('Register a new site at Google reCAPTCHA', 'google-recaptcha-comments'); ?>
+                            </a>
+                            <p class="description">
+                                <?php esc_html_e('You\'ll need a Google account. Make sure you select the correct reCAPTCHA type (v2 or v3) to match the version chosen above.', 'google-recaptcha-comments'); ?>
+                            </p>
                         </td>
                     </tr>
                     <tr>
@@ -219,6 +244,15 @@ class GRC_Settings {
                         <td>
                             <input type="text" id="grc_site_key" name="grc_site_key"
                                 value="<?php echo esc_attr(get_option('grc_site_key')); ?>" class="regular-text">
+                            <p class="description" id="grc-site-key-desc">
+                                <?php
+                                if ($version === 'v3') {
+                                    esc_html_e('Enter the Site Key for reCAPTCHA v3. This is different from a v2 key.', 'google-recaptcha-comments');
+                                } else {
+                                    esc_html_e('Enter the Site Key for reCAPTCHA v2 ("I\'m not a robot" checkbox).', 'google-recaptcha-comments');
+                                }
+                                ?>
+                            </p>
                         </td>
                     </tr>
                     <tr>
@@ -232,6 +266,15 @@ class GRC_Settings {
                                 <?php esc_html_e('Test Connection', 'google-recaptcha-comments'); ?>
                             </button>
                             <span id="grc-test-result" style="margin-left: 10px;"></span>
+                            <p class="description" id="grc-secret-key-desc">
+                                <?php
+                                if ($version === 'v3') {
+                                    esc_html_e('Enter the Secret Key for reCAPTCHA v3. This is different from a v2 key.', 'google-recaptcha-comments');
+                                } else {
+                                    esc_html_e('Enter the Secret Key for reCAPTCHA v2 ("I\'m not a robot" checkbox).', 'google-recaptcha-comments');
+                                }
+                                ?>
+                            </p>
                         </td>
                     </tr>
                     <tr id="grc-v3-threshold-row" style="<?php echo $version !== 'v3' ? 'display:none;' : ''; ?>">

@@ -6,11 +6,19 @@
         var $versionSelect = $('#grc_recaptcha_version');
         var $thresholdRow = $('#grc-v3-threshold-row');
 
+        var $siteKeyDesc = $('#grc-site-key-desc');
+        var $secretKeyDesc = $('#grc-secret-key-desc');
+
         $versionSelect.on('change', function() {
-            if ($(this).val() === 'v3') {
+            var isV3 = $(this).val() === 'v3';
+            if (isV3) {
                 $thresholdRow.show();
+                $siteKeyDesc.text(grcAdmin.strings.siteKeyV3);
+                $secretKeyDesc.text(grcAdmin.strings.secretKeyV3);
             } else {
                 $thresholdRow.hide();
+                $siteKeyDesc.text(grcAdmin.strings.siteKeyV2);
+                $secretKeyDesc.text(grcAdmin.strings.secretKeyV2);
             }
         });
 
