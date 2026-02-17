@@ -92,7 +92,7 @@ class GRC_ReCaptcha {
                         'e.preventDefault();' .
                         'grecaptcha.execute(%s,{action:"comment"}).then(function(token){' .
                             'document.getElementById("grc-recaptcha-response").value=token;' .
-                            'form.submit();' .
+                            'HTMLFormElement.prototype.submit.call(form);' .
                         '});' .
                     '});' .
                 '}' .
