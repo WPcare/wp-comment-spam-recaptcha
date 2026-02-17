@@ -57,7 +57,7 @@ class GRC_Settings {
         return (string) $score;
     }
 
-    public function sanitize_checkbox(string $value): string {
+    public function sanitize_checkbox(?string $value): string {
         return $value === '1' ? '1' : '0';
     }
 
