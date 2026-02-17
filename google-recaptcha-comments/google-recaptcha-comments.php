@@ -3,7 +3,7 @@ declare(strict_types=1);
 /**
  * Plugin Name: Google ReCaptcha for Comments
  * Description: Adds Google ReCaptcha v2/v3 protection to WordPress comments
- * Version: 2.0.0
+ * Version: 2.0.1
  * Requires at least: 5.0
  * Requires PHP: 7.4
  * Author: WP Care
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 
 // Define plugin constants (guarded against redefinition)
 if (!defined('GRC_VERSION')) {
-    define('GRC_VERSION', '2.0.0');
+    define('GRC_VERSION', '2.0.1');
 }
 if (!defined('GRC_PLUGIN_DIR')) {
     define('GRC_PLUGIN_DIR', plugin_dir_path(__FILE__));
